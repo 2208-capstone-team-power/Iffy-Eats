@@ -1,18 +1,75 @@
-import react, {Component } from "react";
+import react, { Component } from "react";
 import { GOOGLE_API_KEY } from "@env";
 import {
-    FlatList,
-    TouchableOpacity,
-    View,
-    Text
-  } from "react-native";
-  import { ListItem, Text } from "react-native-elements";
+  FlatList,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  Image,
+} from "react-native";
+import { ListItem, Text } from "react-native-elements";
 import { Container, Content } from "native-base";
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 
- 
+const GooglePlacesInput = () => {
+  console.log("autocomplete", GOOGLE_API_KEY);
 
+/**
+  handleRestaurantSearch = () => {
+    const url  = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
+    const location = `location=${this.state.latitude},${this.state.longitude}`;
+    const radius = '&radius=500';
+    const type = '&keyword=restaurant';
+    const key = '&key=GOOGLE_API_KEY';
+    const restaurantSearchUrl = url + location + radius + type + key;
+    fetch(restaurantSearchUrl)
+      .then(response => response.json())
+      .then(result => this.setState({restaurantList: result}))
+      .catch( e => console.log(e))
+  }  */
 
-  const PlaceList = () => {
+  return (
+    <SafeAreaView>
+      <GooglePlacesAutocomplete
+        nearbyPlacesAPI="GooglePlacesSearch"
+        debounce={400}
+        styles={{
+          container: {
+            flex:0,
+          },
+          textInput: {
+            fontSize: 18,
+          },
+        }}
+        placeholder="Address: 488 NE 18th St"
+        onPress={(data, details = null) => {
+          //details is provided when fetch Details = true
+          console.log(data, details);
+        }}
+        //currentLocation={true}
+        //currentLocationLabel="Your location!" // add a simple label
+        query={{
+          key: GOOGLE_API_KEY,
+          language: "en",
+        }}
+        requestUrl={{
+          useOnPlatform: 'web', // or "all"
+          url:
+          '/https://maps.googleapis.com/maps/api/place/autocomplete/output?parameters',
+        }}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default GooglePlacesInput;
+
+/**
+   * 
+   * 
+   * 
+   * 
+   *   const PlaceList = () => {
     return (
       <FlatList 
       data= {data}
@@ -28,12 +85,6 @@ import { Container, Content } from "native-base";
 
   
   export default PlaceList;
-
-
-
-
-
-  /**
    * class PlaceList extends Component {
     render() {
       const { places } = this.props;

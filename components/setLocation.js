@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
+import GooglePlacesInput from './Placeview';
 
 function SetLocation({navigation}) {
     const onPressHandler = () => {
@@ -21,6 +22,7 @@ function SetLocation({navigation}) {
         >
         <Text>Animate Object</Text>
       </Pressable>
+      <GooglePlacesInput/>
       </View>
     )
   }
