@@ -4,8 +4,10 @@ import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-nativ
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
+
 export let arr = []
 function HomeScreen({ navigation }) {
+
   
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -61,16 +63,19 @@ function HomeScreen({ navigation }) {
       return await fetch(yelpUrl, apiOptions)
         .then((res) => res.json())
         .then((json) =>
-        // console.log(json),
         {
-          // navigation.navigate('Object')
-          setTimeout(navigation.navigate('Object'), 4000)
           const foodPlace = (json.businesses)
-          // console.log(Object.keys(foodPlace))
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          console.log(oneFoodPlace)
-          // console.log(foodPlace[oneFoodPlace].name)
-          // arr.push(foodPlace[oneFoodPlace])
+
+          arr = []
+          arr.push(foodPlace[oneFoodPlace].name)
+          arr.push(foodPlace[oneFoodPlace].location.address1)
+          arr.push(foodPlace[oneFoodPlace].location.city)
+          arr.push(foodPlace[oneFoodPlace].location.state)
+          arr.push(foodPlace[oneFoodPlace].location.zip_code)
+          arr.push(foodPlace[oneFoodPlace].url)
+          navigation.navigate('Restaurant')
+          console.log(arr);
         }
         )
     } else {
@@ -84,16 +89,10 @@ function HomeScreen({ navigation }) {
         return await fetch(yelpUrl, apiOptions)
           .then((res) => res.json())
           .then((json) =>
-          // console.log(json),
           {
-            // navigation.navigate('Object')
-            // const timer = setTimeout(navigation.navigate('Object'), 4000)
             const foodPlace = (json.businesses)
-            // console.log(Object.keys(foodPlace))
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-            // console.log(oneFoodPlace)
-            // console.log(foodPlace[oneFoodPlace])
-            // const thePlace = foodPlace[oneFoodPlace]
+
             arr = []
             arr.push(foodPlace[oneFoodPlace].name)
             arr.push(foodPlace[oneFoodPlace].location.address1)
@@ -101,55 +100,18 @@ function HomeScreen({ navigation }) {
             arr.push(foodPlace[oneFoodPlace].location.state)
             arr.push(foodPlace[oneFoodPlace].location.zip_code)
             arr.push(foodPlace[oneFoodPlace].url)
-            navigation.navigate('Location')
+            navigation.navigate('Restaurant')
             console.log(arr);
+
           }
-            // console.log(userlocation),
           )
       }
     }
-    //   if (userlocation) {
-    //     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
-    //     const apiOptions = {
-    //       headers: {
-    //         Authorization: `Bearer ${YELP_API_KEY}`
-
-    //       }
-    //     }
-    //     return await fetch(yelpUrl, apiOptions)
-    //       .then((res) => res.json())
-    //       .then((json) =>
-    //         console.log(json),
-    //         console.log(userlocation),
-    //       )
-    //   } else {
-    //     const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
-    //     const apiOptions = {
-    //       headers: {
-    //         Authorization: `Bearer ${YELP_API_KEY}`,
-    //       },
-    //     }
-    //     //await userAddress
-    //     if (userAddress) {
-    //       console.log(userAddress)
-    //       return await fetch(yelpUrl, apiOptions)
-    //         .then((res) => res.json())
-    //         .then((json) =>
-    //           console.log(json),
-    //           console.log(userAddress),
-    //           // setRestaurantData(
-    //           //   json.businesses.filter((business) =>
-    //           //     business.transactions.includes(activeTab.toLowerCase())
-    //         )
-    //       //   )
-    //       // );
-    //     }
-    //   }
   };
-  // useEffect(()=> {
-  //   getYelpRestaurants()
-  // },[])
+
+ 
   console.log(userAddress);
+
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
@@ -178,21 +140,13 @@ function HomeScreen({ navigation }) {
         </Pressable>
       </View> :
         <View>
-          {/* <TextInput
-            placeholder='Address'
-            onChange={(e) => setUserAddress(e.target.value)}
-          ></TextInput> */}
-          {/* <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={getYelpRestaurants}
-          >
-          </Pressable> */}
           <Pressable
             style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
             onPress={getYelpRestaurants}
           >
             <Text style={styles.btnText}>Click to feed your hangry!</Text>
           </Pressable>
+          {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
           <StatusBar style="auto" />
         </View>
       }

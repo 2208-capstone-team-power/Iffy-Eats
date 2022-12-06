@@ -1,3 +1,3 @@
 export {default as HomeScreen} from './homeScreen'
-export {default as SetLocation} from './setLocation'
+export {default as RestaurantInfo} from './restaurantInfo'
 export {default as Object} from './lottieObject'
