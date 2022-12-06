@@ -12,7 +12,6 @@ function HomeScreen({ navigation }) {
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userAddress, setUserAddress] = useState('');
-  //const [pickedRestaurant, setPickedRestaurant] = useState()
 
   const onPressHandler = () => {
     (async () => {
@@ -65,13 +64,18 @@ function HomeScreen({ navigation }) {
         .then((res) => res.json())
         .then((json) =>
         {
-          // navigation.navigate('Object')
-          setTimeout(navigation.navigate('Object'), 4000)
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          console.log(oneFoodPlace)
-          // console.log(foodPlace[oneFoodPlace].name)
-          // arr.push(foodPlace[oneFoodPlace])
+
+          arr = []
+          arr.push(foodPlace[oneFoodPlace].name)
+          arr.push(foodPlace[oneFoodPlace].location.address1)
+          arr.push(foodPlace[oneFoodPlace].location.city)
+          arr.push(foodPlace[oneFoodPlace].location.state)
+          arr.push(foodPlace[oneFoodPlace].location.zip_code)
+          arr.push(foodPlace[oneFoodPlace].url)
+          navigation.navigate('Restaurant')
+          console.log(arr);
         }
         )
     } else {
@@ -86,15 +90,9 @@ function HomeScreen({ navigation }) {
           .then((res) => res.json())
           .then((json) =>
           {
-            // navigation.navigate('Object')
-            // const timer = setTimeout(navigation.navigate('Object'), 4000)
-
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
 
-            // console.log(oneFoodPlace)
-            // console.log(foodPlace[oneFoodPlace])
-            // const thePlace = foodPlace[oneFoodPlace]
             arr = []
             arr.push(foodPlace[oneFoodPlace].name)
             arr.push(foodPlace[oneFoodPlace].location.address1)
@@ -102,19 +100,16 @@ function HomeScreen({ navigation }) {
             arr.push(foodPlace[oneFoodPlace].location.state)
             arr.push(foodPlace[oneFoodPlace].location.zip_code)
             arr.push(foodPlace[oneFoodPlace].url)
-            navigation.navigate('Location')
+            navigation.navigate('Restaurant')
             console.log(arr);
 
           }
           )
-          .then (navigation.navigate('Object'))
       }
     }
   };
 
-  // useEffect(()=> {
-  //   getYelpRestaurants()
-  // },[])
+ 
   console.log(userAddress);
 
   return (
