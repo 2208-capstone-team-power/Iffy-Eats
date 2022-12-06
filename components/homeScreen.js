@@ -4,6 +4,7 @@ import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-nativ
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
+export let arr = []
 function HomeScreen({ navigation }) {
   
   const [userlocation, setUserLocation] = useState(null);
@@ -46,9 +47,9 @@ function HomeScreen({ navigation }) {
   } else if (userlocation) {
     text = JSON.stringify(userlocation);
   }
-
-  const radius = '8000'
   
+  
+  const radius = '8000'
   const getYelpRestaurants = async () => {
     if (userAddress) {
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
@@ -62,12 +63,14 @@ function HomeScreen({ navigation }) {
         .then((json) =>
         // console.log(json),
         {
-          navigation.navigate('Object')
+          // navigation.navigate('Object')
+          setTimeout(navigation.navigate('Object'), 4000)
           const foodPlace = (json.businesses)
           // console.log(Object.keys(foodPlace))
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          // console.log(oneFoodPlace)
-          console.log(foodPlace[oneFoodPlace].name)
+          console.log(oneFoodPlace)
+          // console.log(foodPlace[oneFoodPlace].name)
+          // arr.push(foodPlace[oneFoodPlace])
         }
         )
     } else {
@@ -83,12 +86,23 @@ function HomeScreen({ navigation }) {
           .then((json) =>
           // console.log(json),
           {
-            navigation.navigate('Object')
+            // navigation.navigate('Object')
+            // const timer = setTimeout(navigation.navigate('Object'), 4000)
             const foodPlace = (json.businesses)
             // console.log(Object.keys(foodPlace))
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
             // console.log(oneFoodPlace)
-            console.log(foodPlace[oneFoodPlace].name)
+            // console.log(foodPlace[oneFoodPlace])
+            // const thePlace = foodPlace[oneFoodPlace]
+            arr = []
+            arr.push(foodPlace[oneFoodPlace].name)
+            arr.push(foodPlace[oneFoodPlace].location.address1)
+            arr.push(foodPlace[oneFoodPlace].location.city)
+            arr.push(foodPlace[oneFoodPlace].location.state)
+            arr.push(foodPlace[oneFoodPlace].location.zip_code)
+            arr.push(foodPlace[oneFoodPlace].url)
+            navigation.navigate('Location')
+            console.log(arr);
           }
             // console.log(userlocation),
           )
@@ -136,7 +150,6 @@ function HomeScreen({ navigation }) {
   //   getYelpRestaurants()
   // },[])
   console.log(userAddress);
-
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
