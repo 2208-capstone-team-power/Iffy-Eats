@@ -13,7 +13,7 @@ function SetLocation({navigation}) {
     })
     return (
       <View style={styles.container}>
-      {show ?<Text>HI THERE component</Text> : <Object /> }
+      {show ?<Text>{ arr[0]} { arr[1] } { arr[2] } { arr[3] } { arr[4] } { arr[5] }</Text> : <Object /> }
     </View>
     )
   }
