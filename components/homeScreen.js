@@ -4,11 +4,14 @@ import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-nativ
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
-function HomeScreen({ navigation }) {
+export const one = []
+
+function HomeScreen({ navigation }, {handleState}) {
   
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userAddress, setUserAddress] = useState('');
+  //const [pickedRestaurant, setPickedRestaurant] = useState()
 
   const onPressHandler = () => {
     (async () => {
@@ -60,14 +63,12 @@ function HomeScreen({ navigation }) {
       return await fetch(yelpUrl, apiOptions)
         .then((res) => res.json())
         .then((json) =>
-        // console.log(json),
         {
           navigation.navigate('Object')
           const foodPlace = (json.businesses)
-          // console.log(Object.keys(foodPlace))
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          // console.log(oneFoodPlace)
-          console.log(foodPlace[oneFoodPlace].name)
+          setPickedRestaurant(`${foodPlace[oneFoodPlace].name}`)
+          console.log({pickedRestaurant})
         }
         )
     } else {
@@ -81,62 +82,26 @@ function HomeScreen({ navigation }) {
         return await fetch(yelpUrl, apiOptions)
           .then((res) => res.json())
           .then((json) =>
-          // console.log(json),
           {
-            navigation.navigate('Object')
             const foodPlace = (json.businesses)
-            // console.log(Object.keys(foodPlace))
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-            // console.log(oneFoodPlace)
-            console.log(foodPlace[oneFoodPlace].name)
+            let name = foodPlace[oneFoodPlace].name
+            one.push(name)
+            console.log(one)
+            // setPickedRestaurant(name)
+            // console.log(pickedRestaurant)
           }
-            // console.log(userlocation),
           )
+          .then (navigation.navigate('Object'))
       }
     }
-    //   if (userlocation) {
-    //     const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
-    //     const apiOptions = {
-    //       headers: {
-    //         Authorization: `Bearer ${YELP_API_KEY}`
-
-    //       }
-    //     }
-    //     return await fetch(yelpUrl, apiOptions)
-    //       .then((res) => res.json())
-    //       .then((json) =>
-    //         console.log(json),
-    //         console.log(userlocation),
-    //       )
-    //   } else {
-    //     const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
-    //     const apiOptions = {
-    //       headers: {
-    //         Authorization: `Bearer ${YELP_API_KEY}`,
-    //       },
-    //     }
-    //     //await userAddress
-    //     if (userAddress) {
-    //       console.log(userAddress)
-    //       return await fetch(yelpUrl, apiOptions)
-    //         .then((res) => res.json())
-    //         .then((json) =>
-    //           console.log(json),
-    //           console.log(userAddress),
-    //           // setRestaurantData(
-    //           //   json.businesses.filter((business) =>
-    //           //     business.transactions.includes(activeTab.toLowerCase())
-    //         )
-    //       //   )
-    //       // );
-    //     }
-    //   }
   };
-  // useEffect(()=> {
-  //   getYelpRestaurants()
-  // },[])
-  console.log(userAddress);
 
+  // useEffect (() => {
+  //   setPickedRestaurant()
+  // },[])
+  // console.log(pickedRestaurant)
+  
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
@@ -165,21 +130,13 @@ function HomeScreen({ navigation }) {
         </Pressable>
       </View> :
         <View>
-          {/* <TextInput
-            placeholder='Address'
-            onChange={(e) => setUserAddress(e.target.value)}
-          ></TextInput> */}
-          {/* <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={getYelpRestaurants}
-          >
-          </Pressable> */}
           <Pressable
             style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
             onPress={getYelpRestaurants}
           >
             <Text style={styles.btnText}>Click to feed your hangry!</Text>
           </Pressable>
+          {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
           <StatusBar style="auto" />
         </View>
       }
