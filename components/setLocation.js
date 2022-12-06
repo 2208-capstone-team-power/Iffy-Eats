@@ -1,27 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
+import { arr } from './homeScreen'
+import {Object} from './allComponents'
 
 function SetLocation({navigation}) {
-    const onPressHandler = () => {
-      navigation.navigate('Object')
-    }
+    // const onPressHandler = () => {
+    //   navigation.navigate('Iffy Eats')
+    // }
+    const [show, setShow] = useState(false)
+    useEffect(() => {
+      setTimeout(() => setShow(true), 3000)
+    })
     return (
       <View style={styles.container}>
-          <TextInput
-        style={styles.input}
-        placeholder='Zip Code'
-        placeholderTextColor='darkslateblue'
-        selectionColor='lavender'
-        keyboardType='numeric'
-        maxLength={5}
-        />
-        <Pressable
-        style={({pressed})=>[({backgroundColor: pressed ? 'purple':'hotpink'}), styles.wrapperCustom]}
-        onPress={onPressHandler}
-        >
-        <Text>Animate Object</Text>
-      </Pressable>
-      </View>
+      {show ?<Text>HI THERE component</Text> : <Object /> }
+    </View>
     )
   }
 
@@ -51,8 +44,12 @@ function SetLocation({navigation}) {
     },
     wrapperCustom: {
       borderRadius: 8,
-      padding: 6
-    }
+      padding: 6,
+      margin: 10,
+      width: 150,
+      textAlign: 'center',
+      alignSelf: 'center',
+    },
   });
   
 

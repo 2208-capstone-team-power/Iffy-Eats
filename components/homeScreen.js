@@ -48,7 +48,7 @@ function HomeScreen({ navigation }) {
   }
 
   const radius = '8000'
-  
+  let arr = []
   const getYelpRestaurants = async () => {
     if (userAddress) {
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
@@ -62,12 +62,14 @@ function HomeScreen({ navigation }) {
         .then((json) =>
         // console.log(json),
         {
-          navigation.navigate('Object')
+          // navigation.navigate('Object')
+          setTimeout(navigation.navigate('Object'), 4000)
           const foodPlace = (json.businesses)
           // console.log(Object.keys(foodPlace))
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
           // console.log(oneFoodPlace)
           console.log(foodPlace[oneFoodPlace].name)
+          arr.push(foodPlace[oneFoodPlace].name)
         }
         )
     } else {
@@ -83,12 +85,15 @@ function HomeScreen({ navigation }) {
           .then((json) =>
           // console.log(json),
           {
-            navigation.navigate('Object')
+            // navigation.navigate('Object')
+            // const timer = setTimeout(navigation.navigate('Object'), 4000)
             const foodPlace = (json.businesses)
             // console.log(Object.keys(foodPlace))
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
             // console.log(oneFoodPlace)
             console.log(foodPlace[oneFoodPlace].name)
+            arr.push(foodPlace[oneFoodPlace].name)
+            navigation.navigate('Location')
           }
             // console.log(userlocation),
           )
@@ -136,7 +141,6 @@ function HomeScreen({ navigation }) {
   //   getYelpRestaurants()
   // },[])
   console.log(userAddress);
-
   return (
     <View style={styles.container}>
       <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
