@@ -1,38 +1,36 @@
 import React, { useEffect } from 'react';
 import { Animated, Easing, View, StyleSheet, Text } from 'react-native';
-import Lottie from 'lottie-react-native'; //LottieView
+import LottieView from 'lottie-react-native'; //LottieView
 import { StatusBar } from 'expo-status-bar';
 
-const Object = () => {
+const PickedImage = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Our Pick for You Is...</Text>
-            <Lottie
+            <LottieView
                 style={styles.object}
-                source={require('../assets/pick-your-food.json')}
+                source={require('../assets/122031-potato.json')}
                 autoPlay
-            ></Lottie>
+            ></LottieView>
             <StatusBar style="auto" />
         </View>
     )
 }
-
 const styles = StyleSheet.create(
     {
         container: {
             flex: 1,
             backgroundColor: '#fff',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space around',
         },
         object: {
-            width: 300,
-            height: 300,
+            width: 350,
+            height: 350,
         },
         text: {
             fontSize: 24
         }
     }
 )
-export default Object
+export default PickedImage
