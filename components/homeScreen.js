@@ -7,7 +7,6 @@ import { YELP_API_KEY } from '@env'
 
 export let arr = []
 function HomeScreen({ navigation }) {
-
   
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
@@ -24,7 +23,7 @@ function HomeScreen({ navigation }) {
       }
 
       let loc = await Location.getCurrentPositionAsync({});
-      console.log(loc)
+      console.log(loc + 'from homescreen')
       setUserLocation(loc);
     })()
   }
@@ -50,7 +49,6 @@ function HomeScreen({ navigation }) {
     text = JSON.stringify(userlocation);
   }
   
-  
   const radius = '8000'
   const getYelpRestaurants = async () => {
     if (userAddress) {
@@ -66,7 +64,6 @@ function HomeScreen({ navigation }) {
         {
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-
           arr = []
           arr.push(foodPlace[oneFoodPlace].name)
           arr.push(foodPlace[oneFoodPlace].location.address1)
@@ -75,10 +72,11 @@ function HomeScreen({ navigation }) {
           arr.push(foodPlace[oneFoodPlace].location.zip_code)
           arr.push(foodPlace[oneFoodPlace].url)
           navigation.navigate('Restaurant')
-          console.log(arr);
+          console.log(arr + 'from homescreen');
         }
         )
     } else {
+      console.log(userlocation + 'from homescreen')
       if (userlocation) {
         const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
@@ -90,6 +88,7 @@ function HomeScreen({ navigation }) {
           .then((res) => res.json())
           .then((json) =>
           {
+            
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
 
@@ -101,7 +100,7 @@ function HomeScreen({ navigation }) {
             arr.push(foodPlace[oneFoodPlace].location.zip_code)
             arr.push(foodPlace[oneFoodPlace].url)
             navigation.navigate('Restaurant')
-            console.log(arr);
+            console.log(arr + 'from homescreen');
 
           }
           )
@@ -110,7 +109,6 @@ function HomeScreen({ navigation }) {
   };
 
  
-  console.log(userAddress);
 
   return (
     <View style={styles.container}>
