@@ -71,8 +71,8 @@ function HomeScreen({ navigation }) {
           arr.push(foodPlace[oneFoodPlace].location.state)
           arr.push(foodPlace[oneFoodPlace].location.zip_code)
           arr.push(foodPlace[oneFoodPlace].url)
-          navigation.navigate('Restaurant')
-          console.log(arr + 'from homescreen');
+          console.log("from homescreen with address " + arr)
+          navigation.navigate('Restaurant');
         }
         )
     } else {
@@ -100,8 +100,7 @@ function HomeScreen({ navigation }) {
             arr.push(foodPlace[oneFoodPlace].location.zip_code)
             arr.push(foodPlace[oneFoodPlace].url)
             navigation.navigate('Restaurant')
-            console.log(arr + 'from homescreen');
-
+            console.log("from homescreen with gps" + arr)
           }
           )
       }

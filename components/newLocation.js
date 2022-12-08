@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
 import * as Location from 'expo-location';
-import { PickedImage } from "./allComponents"
+import { AvocadoImage } from "./allComponents"
 import { YELP_API_KEY } from '@env'
 
 function NewLocation() {
@@ -59,7 +59,7 @@ function NewLocation() {
                 <Text style={styles.text}>{oneRestaurant[3]}</Text>
                 <Text style={styles.text}>{oneRestaurant[4]}</Text>
             </View>
-            <PickedImage />
+            {oneRestaurant.length ? <AvocadoImage /> : null}
             {oneRestaurant.length ?
                 <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
                     onPress={() => Linking.openURL(oneRestaurant[5])}>
