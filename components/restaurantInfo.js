@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
 import { arr } from './homeScreen'
-import { Object, PickedImage } from './allComponents'
+import { Object, PotatoImage } from './allComponents'
 //import { YELP_API_KEY } from '@env'
 
 function RestaurantInfo({ navigation }) {
@@ -53,7 +53,7 @@ function RestaurantInfo({ navigation }) {
             <Text>{arr[4]}</Text>
           </View>
           <View style={styles.innercontainer}>
-            <PickedImage />
+            <PotatoImage />
           </View>
           <View style={styles.container}>
             <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}

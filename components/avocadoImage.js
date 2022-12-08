@@ -3,13 +3,13 @@ import { Animated, Easing, View, StyleSheet, Text } from 'react-native';
 import LottieView from 'lottie-react-native'; //LottieView
 import { StatusBar } from 'expo-status-bar';
 
-const PickedImage = () => {
+const AvocadoImage = () => {
 
     return (
         <View style={styles.container}>
             <LottieView
                 style={styles.object}
-                source={require('../assets/122031-potato.json')}
+                source={require('../assets/63272-avocado.json')}
                 autoPlay
             ></LottieView>
             <StatusBar style="auto" />
@@ -33,4 +33,4 @@ const styles = StyleSheet.create(
         }
     }
 )
-export default PickedImage
+export default AvocadoImage
