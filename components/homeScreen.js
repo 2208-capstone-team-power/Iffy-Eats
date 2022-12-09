@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
+import { Image, StyleSheet, Text, View, Pressable, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
 
+
 export let arr = []
 function HomeScreen({ navigation }) {
-  
+
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userAddress, setUserAddress] = useState('');
@@ -48,7 +50,7 @@ function HomeScreen({ navigation }) {
   } else if (userlocation) {
     text = JSON.stringify(userlocation);
   }
-  
+
   const radius = '8000'
   const getYelpRestaurants = async () => {
     if (userAddress) {
@@ -60,8 +62,7 @@ function HomeScreen({ navigation }) {
       }
       return await fetch(yelpUrl, apiOptions)
         .then((res) => res.json())
-        .then((json) =>
-        {
+        .then((json) => {
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
           arr = []
@@ -86,9 +87,8 @@ function HomeScreen({ navigation }) {
         }
         return await fetch(yelpUrl, apiOptions)
           .then((res) => res.json())
-          .then((json) =>
-          {
-            
+          .then((json) => {
+
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
 
@@ -107,47 +107,48 @@ function HomeScreen({ navigation }) {
     }
   };
 
- 
+
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
-      <Text style={styles.text}>Welcome to Iffy Eats!</Text>
-      {!userlocation ? <View>
-        <Pressable
-          style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-          onPress={onPressHandler}
-        >
-          <Text style={styles.btnText}>Use My Location</Text>
-        </Pressable>
-        <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType={'default'}
-          placeholder={'Enter Address'}
-          value={userAddress}
-          onChangeText={(e) => setUserAddress(e)}
-        ></TextInput>
-
-        <Pressable
-          style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-          onPress={getYelpRestaurants}
-        >
-          <Text style={styles.btnText}>Enter Address</Text>
-        </Pressable>
-      </View> :
-        <View>
-          <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={getYelpRestaurants}
-          >
-            <Text style={styles.btnText}>Click to feed your hangry!</Text>
-          </Pressable>
-          {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
-          <StatusBar style="auto" />
+    <KeyboardAwareScrollView contentContainerStyle={{flex:1}}>
+        <View style={styles.container}>
+          <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
+          <Text style={styles.text}>Welcome to Iffy Eats!</Text>
+          {!userlocation ? <View>
+            <Pressable
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={onPressHandler}
+            >
+              <Text style={styles.btnText}>Use My Location</Text>
+            </Pressable>
+            <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType={'default'}
+              placeholder={'Enter Address'}
+              value={userAddress}
+              onChangeText={(e) => setUserAddress(e)}
+            ></TextInput>
+            <Pressable
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={getYelpRestaurants}
+            >
+              <Text style={styles.btnText}>Enter Address</Text>
+            </Pressable>
+          </View> :
+            <View>
+              <Pressable
+                style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+                onPress={getYelpRestaurants}
+              >
+                <Text style={styles.btnText}>Click to feed your hangry!</Text>
+              </Pressable>
+              {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
+              <StatusBar style="auto" />
+            </View>
+          }
         </View>
-      }
-    </View>
+    </KeyboardAwareScrollView>
   )
 }
 
