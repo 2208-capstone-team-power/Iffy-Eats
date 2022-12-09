@@ -3,42 +3,27 @@ import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-nat
 import { arr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 //import { YELP_API_KEY } from '@env'
+//import {GOOGLE_API_KEY} from '@env
 
 function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
-
+  
+  
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
 
-  // // const radius = '8000'
+  
+{/*}
 
-  // // const newYelpRestaurants = async () => {
-  // //   if (userAddress) {
-  // //     const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
-  // //     const apiOptions = {
-  // //       headers: {
-  // //         Authorization: `Bearer ${YELP_API_KEY}`,
-  // //       },
-  // //     }
-  // //     return await fetch(yelpUrl, apiOptions)
-  // //       .then((res) => res.json())
-  // //       .then((json) => {
-  // //         const foodPlace = (json.businesses)
-  // //         let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-  // //         arr = []
-  // //         arr.push(foodPlace[oneFoodPlace].name)
-  // //         arr.push(foodPlace[oneFoodPlace].location.address1)
-  // //         arr.push(foodPlace[oneFoodPlace].location.city)
-  // //         arr.push(foodPlace[oneFoodPlace].location.state)
-  // //         arr.push(foodPlace[oneFoodPlace].location.zip_code)
-  // //         arr.push(foodPlace[oneFoodPlace].url)
-  // //         navigation.navigate('Restaurant')
-  // //         console.log(arr);
-  // //       }
-  //       )
-  // }
+  const staticMapMaker = (lat, long) => {
+    const mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap
+    &markers=color:teal%7Clabel:S%7C${lat},${long}&key=`${GOOGLE_API_KEY}`;
+    return mapImageUrl;
+    },
+
+  */}
 
   return (
     <View style={styles.container}>
@@ -55,6 +40,7 @@ function RestaurantInfo({ navigation }) {
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
+          {/*<Image source={{uri: staticMapMaker({arr[6]}, {arr[7]}) }} />  */}
           <View style={styles.container}>
             <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={() => Linking.openURL(arr[5])}>
