@@ -3,10 +3,11 @@ import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
 import { arr } from './homeScreen';
+import * as Location from 'expo-location';
 
 
 const MapScreen = () => {
-    console.log('hello', arr)
+    // const [userlocation, setUserLocation] = useState(null);
 
     const [mapRegion, setMapRegion] = useState({
         latitude: arr[6],
@@ -16,8 +17,10 @@ const MapScreen = () => {
     });
 
     // useEffect(() => {
-    //     setTimeout(() => setMapRegion(arr), 3000);
-    // });
+    //     let loc = Location.getCurrentPositionAsync({});
+    //     console.log(loc + 'on map')
+    //     setUserLocation(loc);
+    // }, []);
 
     return (
         <View style={styles.container}>
