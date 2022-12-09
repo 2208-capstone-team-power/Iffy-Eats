@@ -1,43 +1,93 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
-import { arr } from './homeScreen'
+import { StyleSheet, Text, View, Pressable, TextInput, Linking, Image } from 'react-native';
+import { restaurantInfoArr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
-import MapScreen from './MapScreen'
-//import { YELP_API_KEY } from '@env'
-//import {GOOGLE_API_KEY} from '@env
+import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
+import MapScreen from './MapScreen';
 
 function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
-  
+  const [renderedRest, setrenderedRest] = useState(restaurantInfoArr)
+  const [map, setMap] = useState('')
+
+
+  useEffect(() => {
+    if (renderedRest.length===0){
+      return;
+    } else {
+      setMap({
+      lat: renderedRest[6],
+      long: renderedRest[7],
+    })
+    }
+    // staticMapMaker(map.lat, map.long)
+  }, [])
+
   
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
 
+    // const staticMapMaker = (lat, long) => {
+    //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
+    //   console.log(mapImageUrl)
+    //   return(mapImageUrl)
+    // }
 
-  {/*}
-
-  const staticMapMaker = (lat, long) => {
-    const mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap
-    &markers=color:teal%7Clabel:S%7C${lat},${long}&key=`${GOOGLE_API_KEY}`;
-    return mapImageUrl;
-    },
-
-  */}
-
+const radius = 8000
+  const newYelpRestaurants = async () => {
+    if (restaurantInfoArr[6] & restaurantInfoArr[7]) {
+      const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${restaurantInfoArr[6]}&longitude=${restaurantInfoArr[7]}`
+      const apiOptions = {
+        headers: {
+          Authorization: `Bearer ${YELP_API_KEY}`,
+        },
+      }
+      return await fetch(yelpUrl, apiOptions)
+        .then((res) => res.json())
+        .then((json) => {
+          const foodPlace = (json.businesses)
+          let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
+          console.log(oneFoodPlace)
+          newRestaurantInfoArr = []
+          console.log(foodPlace[oneFoodPlace])
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].name)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.address1)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.city)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.state)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.zip_code)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].url)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
+          newRestaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
+          console.log('This is the rerendered one' + newRestaurantInfoArr);
+          setrenderedRest(newRestaurantInfoArr)
+          return renderedRest
+        }
+        )
+    }
+  }
+  console.log(renderedRest)
   return (
+
+
     <View style={styles.container}>
       {show ?
         <View style={styles.innercontainer}>
           <Text>Food Of the Day</Text>
           <View style={styles.innercontainer}>
-            <Text>{arr[0]}</Text>
-            <Text>{arr[1]}</Text>
-            <Text>{arr[2]}</Text>
-            <Text>{arr[3]}</Text>
-            <Text>{arr[4]}</Text>
+            <Text>{renderedRest[0]}</Text>
+            <Text>{renderedRest[1]}</Text>
+            <Text>{renderedRest[2]}</Text>
+            <Text>{renderedRest[3]}</Text>
+            <Text>{renderedRest[4]}</Text>
           </View>
+           {/* <View styles={styles.container}>
+           <Image 
+              style = {{width:400, height:200}}
+              source={{uri: staticMapMaker(map.lat, map.long)
+              }} /> 
+           </View> */}
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
@@ -49,7 +99,7 @@ function RestaurantInfo({ navigation }) {
               <Text style={styles.btnText}>View On Map</Text>
             </Pressable>
             <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={() => Linking.openURL(arr[5])}>
+              onPress={() => Linking.openURL(renderedRest[5])}>
               <Text style={styles.btnText}>Link To Yelp Page</Text>
             </Pressable>
             <Pressable
@@ -58,9 +108,14 @@ function RestaurantInfo({ navigation }) {
             >
               <Text style={styles.btnText}>Enter A New Address</Text>
             </Pressable>
+            <Pressable
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={newYelpRestaurants}
+            >
+              <Text style={styles.btnText}>Re-Roll!</Text>
+            </Pressable>
           </View>
         </View>
-
         : <Object />}
     </View>
   )

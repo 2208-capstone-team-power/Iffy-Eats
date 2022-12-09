@@ -2,16 +2,15 @@ import React, { useEffect, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Marker } from 'react-native-maps';
 import { StyleSheet, View } from 'react-native';
-import { arr } from './homeScreen';
+import { restaurantInfoArr } from './homeScreen';
 import * as Location from 'expo-location';
 
 
 const MapScreen = () => {
     // const [userlocation, setUserLocation] = useState(null);
-
     const [mapRegion, setMapRegion] = useState({
-        latitude: arr[6],
-        longitude: arr[7],
+        latitude: restaurantInfoArr[6],
+        longitude: restaurantInfoArr[7],
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
     });
