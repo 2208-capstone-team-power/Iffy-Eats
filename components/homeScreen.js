@@ -39,6 +39,7 @@ function HomeScreen({ navigation }) {
 
       let loc = await Location.getCurrentPositionAsync({});
       setUserLocation(loc);
+      console.log(loc)
     })();
   }, []);
 
@@ -50,6 +51,7 @@ function HomeScreen({ navigation }) {
   }
   
   const radius = '8000'
+  const YELP_API_KEY = 'XhFvgP90N9Mv4kImYtncCY2c1_tgLf2a7zJiUKCVKXKC4r6MMBFQJo5c1FR0VGyKtm48i9lVhcIMsJjQZVCh6EmcmOLshYS-m_chka40v65bC0chDjreq1Zr63GOY3Yx'
   const getYelpRestaurants = async () => {
     if (userAddress) {
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
@@ -71,12 +73,14 @@ function HomeScreen({ navigation }) {
           arr.push(foodPlace[oneFoodPlace].location.state)
           arr.push(foodPlace[oneFoodPlace].location.zip_code)
           arr.push(foodPlace[oneFoodPlace].url)
+          arr.push(foodPlace[oneFoodPlace].coordinates.latitude)
+          arr.push(foodPlace[oneFoodPlace].coordinates.longitude)
           console.log("from homescreen with address " + arr)
           navigation.navigate('Restaurant');
         }
         )
     } else {
-      console.log(userlocation + 'from homescreen')
+      console.log( 'from homescreen', userlocation.coords)
       if (userlocation) {
         const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
@@ -99,6 +103,8 @@ function HomeScreen({ navigation }) {
             arr.push(foodPlace[oneFoodPlace].location.state)
             arr.push(foodPlace[oneFoodPlace].location.zip_code)
             arr.push(foodPlace[oneFoodPlace].url)
+            arr.push(foodPlace[oneFoodPlace].coordinates.latitude)
+            arr.push(foodPlace[oneFoodPlace].coordinates.longitude)
             navigation.navigate('Restaurant')
             console.log("from homescreen with gps" + arr)
           }
