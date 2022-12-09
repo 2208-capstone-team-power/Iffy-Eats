@@ -4,6 +4,7 @@ import { arr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 //import { staticMap } from './StaticMap'
 //import { YELP_API_KEY } from '@env'
+import {GOOGLE_API_KEY} from '@env'
 
 
 function RestaurantInfo({ navigation }) {
@@ -11,19 +12,22 @@ function RestaurantInfo({ navigation }) {
   const [show, setShow] = useState(false)
   const [map, setMap] = useState('')
 
+  useEffect(() => {
+    if (arr.length===0){
+      return;
+    } else {
+      setMap({
+      lat: arr[6],
+      long: arr[7],
+    })
+    
+    }
+  }, [])
 
-
-  
   
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
-
-   const GOOGLE_API_KEY = 'AIzaSyAfW7sp9KZ4tIOtV28Ws1ku6Sk1rnpgoOs'
-   console.log(arr[6], arr[7])
-
-   
-   const mapImageUrl = ''
 
     const staticMapMaker = (lat, long) => {
       let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
@@ -32,12 +36,7 @@ function RestaurantInfo({ navigation }) {
     }
 
    
-      staticMapMaker(arr[6], arr[7])
-      
-    
-     
-    
-    console.log(mapImageUrl)
+
   return (
 
 
@@ -53,7 +52,10 @@ function RestaurantInfo({ navigation }) {
             <Text>{arr[4]}</Text>
           </View>
            <View styles={styles.container}>
-           <Image source={{mapImageUrl}} /> 
+           <Image 
+              style = {{width:400, height:200}}
+              source={{uri: staticMapMaker(map.lat, map.long)
+              }} /> 
            </View>
           <View style={styles.innercontainer}>
             <PotatoImage />
