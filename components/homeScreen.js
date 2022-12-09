@@ -5,7 +5,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
-
 export let restaurantInfoArr = [];
 export let addressArr = [];
 
@@ -44,6 +43,7 @@ function HomeScreen({ navigation }) {
 
       let loc = await Location.getCurrentPositionAsync({});
       setUserLocation(loc);
+      console.log(loc)
     })();
   }, []);
 
@@ -53,6 +53,7 @@ function HomeScreen({ navigation }) {
   } else if (userlocation) {
     text = JSON.stringify(userlocation);
   }
+
 
   //const radius = '8000'
   const getYelpRestaurants = async () => {
@@ -80,11 +81,12 @@ function HomeScreen({ navigation }) {
           restaurantInfoArr.push(foodPlace[oneFoodPlace].url)
           restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
           restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
+
           navigation.navigate('Restaurant');
         }
         )
     } else {
-      console.log(userlocation + 'from homescreen')
+      console.log( 'from homescreen', userlocation.coords)
       if (userlocation) {
         const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
@@ -116,21 +118,6 @@ function HomeScreen({ navigation }) {
     }
   };
  
-  // const getAddress = async() => {
-  //   await userlocation || userAddress
-  //   if (userlocation.length) {
-  //     addressArr.push(userlocation)
-  //     console.log("line 120 " + addressArr)
-  //     return addressArr
-  //   } else {
-  //      if (userAddress.length) {
-  //       addressArr.push(userAddress)
-  //       console.log("line 125 " + addressArr)
-  //       return addressArr
-  //     }
-  //   }
-  // }
-  // getAddress(userlocation, userAddress)
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
