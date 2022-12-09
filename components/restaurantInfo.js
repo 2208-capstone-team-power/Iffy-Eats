@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
 import { arr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
+import MapScreen from './MapScreen'
 //import { YELP_API_KEY } from '@env'
 //import {GOOGLE_API_KEY} from '@env
 
@@ -14,8 +15,8 @@ function RestaurantInfo({ navigation }) {
     setTimeout(() => setShow(true), 3000)
   })
 
-  
-{/*}
+
+  {/*}
 
   const staticMapMaker = (lat, long) => {
     const mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap
@@ -41,7 +42,12 @@ function RestaurantInfo({ navigation }) {
             <PotatoImage />
           </View>
           {/*<Image source={{uri: staticMapMaker({arr[6]}, {arr[7]}) }} />  */}
-          <View style={styles.container}>
+          <View style={styles.innercontainer}>
+            <MapScreen />
+            <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={() => navigation.navigate('MapScreen')}>
+              <Text style={styles.btnText}>View On Map</Text>
+            </Pressable>
             <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={() => Linking.openURL(arr[5])}>
               <Text style={styles.btnText}>Link To Yelp Page</Text>
