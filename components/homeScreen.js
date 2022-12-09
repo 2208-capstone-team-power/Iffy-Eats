@@ -110,44 +110,44 @@ function HomeScreen({ navigation }) {
 
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={{flex:1}}>
-        <View style={styles.container}>
-          <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
-          <Text style={styles.text}>Welcome to Iffy Eats!</Text>
-          {!userlocation ? <View>
-            <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={onPressHandler}
-            >
-              <Text style={styles.btnText}>Use My Location</Text>
-            </Pressable>
-            <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
-            <TextInput
-              style={styles.input}
-              keyboardType={'default'}
-              placeholder={'Enter Address'}
-              value={userAddress}
-              onChangeText={(e) => setUserAddress(e)}
-            ></TextInput>
+    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
+        <Text style={styles.text}>Welcome to Iffy Eats!</Text>
+        {!userlocation ? <View>
+          <Pressable
+            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+            onPress={onPressHandler}
+          >
+            <Text style={styles.btnText}>Use My Location</Text>
+          </Pressable>
+          <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
+          <TextInput
+            style={styles.input}
+            keyboardType={'default'}
+            placeholder={'Enter Address'}
+            value={userAddress}
+            onChangeText={(e) => setUserAddress(e)}
+          ></TextInput>
+          <Pressable
+            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+            onPress={getYelpRestaurants}
+          >
+            <Text style={styles.btnText}>Enter Address</Text>
+          </Pressable>
+        </View> :
+          <View>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}
             >
-              <Text style={styles.btnText}>Enter Address</Text>
+              <Text style={styles.btnText}>Click to feed your hangry!</Text>
             </Pressable>
-          </View> :
-            <View>
-              <Pressable
-                style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-                onPress={getYelpRestaurants}
-              >
-                <Text style={styles.btnText}>Click to feed your hangry!</Text>
-              </Pressable>
-              {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
-              <StatusBar style="auto" />
-            </View>
-          }
-        </View>
+            {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
+            <StatusBar style="auto" />
+          </View>
+        }
+      </View>
     </KeyboardAwareScrollView>
   )
 }
