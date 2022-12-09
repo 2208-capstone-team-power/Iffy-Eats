@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View, Pressable, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 
 
+export let restaurantInfoArr = [];
+export let addressArr = [];
 
-export let arr = []
 function HomeScreen({ navigation }) {
 
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userAddress, setUserAddress] = useState('');
+
+  const [radius, setRadius] = useState('8000');
 
   const onPressHandler = () => {
     (async () => {
@@ -51,9 +54,12 @@ function HomeScreen({ navigation }) {
     text = JSON.stringify(userlocation);
   }
 
-  const radius = '8000'
+  //const radius = '8000'
   const getYelpRestaurants = async () => {
     if (userAddress) {
+      addressArr = []
+      addressArr.push(userAddress)
+      console.log("HomeScreen line62 " + addressArr)
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
       const apiOptions = {
         headers: {
@@ -65,14 +71,15 @@ function HomeScreen({ navigation }) {
         .then((json) => {
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          arr = []
-          arr.push(foodPlace[oneFoodPlace].name)
-          arr.push(foodPlace[oneFoodPlace].location.address1)
-          arr.push(foodPlace[oneFoodPlace].location.city)
-          arr.push(foodPlace[oneFoodPlace].location.state)
-          arr.push(foodPlace[oneFoodPlace].location.zip_code)
-          arr.push(foodPlace[oneFoodPlace].url)
-          console.log("from homescreen with address " + arr)
+          restaurantInfoArr = []
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].name)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].location.address1)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].location.city)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].location.state)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].location.zip_code)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].url)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
+          restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
           navigation.navigate('Restaurant');
         }
         )
@@ -92,28 +99,45 @@ function HomeScreen({ navigation }) {
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
 
-            arr = []
-            arr.push(foodPlace[oneFoodPlace].name)
-            arr.push(foodPlace[oneFoodPlace].location.address1)
-            arr.push(foodPlace[oneFoodPlace].location.city)
-            arr.push(foodPlace[oneFoodPlace].location.state)
-            arr.push(foodPlace[oneFoodPlace].location.zip_code)
-            arr.push(foodPlace[oneFoodPlace].url)
+            restaurantInfoArr = []
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].name)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].location.address1)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].location.city)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].location.state)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].location.zip_code)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].url)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
+            restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
             navigation.navigate('Restaurant')
-            console.log("from homescreen with gps" + arr)
+            console.log("from homescreen with gps" + restaurantInfoArr)
           }
           )
       }
     }
   };
-
-
+ 
+  // const getAddress = async() => {
+  //   await userlocation || userAddress
+  //   if (userlocation.length) {
+  //     addressArr.push(userlocation)
+  //     console.log("line 120 " + addressArr)
+  //     return addressArr
+  //   } else {
+  //      if (userAddress.length) {
+  //       addressArr.push(userAddress)
+  //       console.log("line 125 " + addressArr)
+  //       return addressArr
+  //     }
+  //   }
+  // }
+  // getAddress(userlocation, userAddress)
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
       <View style={styles.container}>
         <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
         <Text style={styles.text}>Welcome to Iffy Eats!</Text>
+
         {!userlocation ? <View>
           <Pressable
             style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
