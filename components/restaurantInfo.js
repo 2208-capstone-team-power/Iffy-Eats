@@ -1,31 +1,46 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
+import { StyleSheet, Text, View, Pressable, TextInput, Linking, Image } from 'react-native';
 import { arr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
+//import { staticMap } from './StaticMap'
 //import { YELP_API_KEY } from '@env'
-//import {GOOGLE_API_KEY} from '@env
+
 
 function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
+  const [map, setMap] = useState('')
+
+
+
   
   
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
 
-  
-{/*}
+   const GOOGLE_API_KEY = 'AIzaSyAfW7sp9KZ4tIOtV28Ws1ku6Sk1rnpgoOs'
+   console.log(arr[6], arr[7])
 
-  const staticMapMaker = (lat, long) => {
-    const mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap
-    &markers=color:teal%7Clabel:S%7C${lat},${long}&key=`${GOOGLE_API_KEY}`;
-    return mapImageUrl;
-    },
+   
+   const mapImageUrl = ''
 
-  */}
+    const staticMapMaker = (lat, long) => {
+      let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
+      console.log(mapImageUrl)
+      return(mapImageUrl)
+    }
 
+   
+      staticMapMaker(arr[6], arr[7])
+      
+    
+     
+    
+    console.log(mapImageUrl)
   return (
+
+
     <View style={styles.container}>
       {show ?
         <View style={styles.innercontainer}>
@@ -37,10 +52,12 @@ function RestaurantInfo({ navigation }) {
             <Text>{arr[3]}</Text>
             <Text>{arr[4]}</Text>
           </View>
+           <View styles={styles.container}>
+           <Image source={{mapImageUrl}} /> 
+           </View>
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
-          {/*<Image source={{uri: staticMapMaker({arr[6]}, {arr[7]}) }} />  */}
           <View style={styles.container}>
             <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={() => Linking.openURL(arr[5])}>

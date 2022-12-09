@@ -67,6 +67,7 @@ function HomeScreen({ navigation }) {
         .then((json) => {
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
+          console.log(foodPlace[oneFoodPlace].coordinates.latitude)
           arr = []
           arr.push(foodPlace[oneFoodPlace].name)
           arr.push(foodPlace[oneFoodPlace].location.address1)
@@ -95,7 +96,7 @@ function HomeScreen({ navigation }) {
 
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-
+            console.log(foodPlace[oneFoodPlace].coordinates.latitude)
             arr = []
             arr.push(foodPlace[oneFoodPlace].name)
             arr.push(foodPlace[oneFoodPlace].location.address1)
