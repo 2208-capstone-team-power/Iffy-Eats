@@ -8,31 +8,10 @@ function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
   const [renderedRest, setrenderedRest] = useState(restaurantInfoArr)
-  // const [map, setMap] = useState('')
-
-
-  // useEffect(() => {
-  //   if (renderedRest.length === 0) {
-  //     return;
-  //   } else {
-  //     setMap({
-  //       lat: renderedRest[6],
-  //       long: renderedRest[7],
-  //     })
-  //   }
-  //   staticMapMaker(map.lat, map.long)
-  // }, [])
-
 
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
-
-  // const staticMapMaker = (lat, long) => {
-  //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
-  //   console.log(mapImageUrl)
-  //   return (mapImageUrl)
-  // }
 
   const radius = 8000
   const newYelpRestaurants = async () => {
@@ -83,13 +62,6 @@ function RestaurantInfo({ navigation }) {
             <Text>{renderedRest[3]}</Text>
             <Text>{renderedRest[4]}</Text>
           </View>
-          {/* <View styles={styles.container}>
-            <Image
-              style={{ width: 400, height: 200 }}
-              source={{
-                uri: staticMapMaker(map.lat, map.long)
-              }} />
-          </View> */}
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
