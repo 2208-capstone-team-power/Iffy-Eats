@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react';
-import { Animated, Easing, View, StyleSheet, Text } from 'react-native';
-import Lottie from 'lottie-react-native'; //LottieView
-import { StatusBar } from 'expo-status-bar';
+import { View, StyleSheet, Text } from 'react-native';
+import Lottie from 'lottie-react-native';
 
 const Object = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Our Pick for You Is...</Text>
+            <Text style={styles.text}>Your Surprise Awaits</Text>
             <Lottie
                 style={styles.object}
                 source={require('../assets/pick-your-food.json')}
-                autoPlay
-            ></Lottie>
-            <StatusBar style="auto" />
+                autoPlay>
+            </Lottie>
         </View>
     )
 }
