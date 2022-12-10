@@ -7,6 +7,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export let restaurantInfoArr = [];
+export let addressArray = {}
 
 function HomeScreen({ navigation }) {
 
@@ -46,6 +47,15 @@ function HomeScreen({ navigation }) {
       console.log(loc)
     })();
   }, []);
+
+  const coordinates = () => {
+    if(userlocation){
+      addressArray.latitude = userlocation.coords.latitude
+      addressArray.longitude= userlocation.coords.longitude
+      console.log("LOOK AT OBJECT" + addressArray)
+    }
+  }
+  coordinates(userlocation)
 
   let text = 'Waiting..';
   if (errorMsg) {

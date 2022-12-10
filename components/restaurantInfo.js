@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Pressable, Linking, Image } from 'react-native'
 import { restaurantInfoArr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
+import MapScreen from './MapScreen';
 
 function RestaurantInfo({ navigation }) {
 
@@ -65,7 +66,6 @@ function RestaurantInfo({ navigation }) {
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
-          <View style={styles.newRerollBtn}>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={() => navigation.navigate('New Location')}>
