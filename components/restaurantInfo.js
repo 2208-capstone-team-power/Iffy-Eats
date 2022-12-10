@@ -13,29 +13,29 @@ function RestaurantInfo({ navigation }) {
 
 
   useEffect(() => {
-    if (renderedRest.length===0){
+    if (renderedRest.length === 0) {
       return;
     } else {
       setMap({
-      lat: renderedRest[6],
-      long: renderedRest[7],
-    })
+        lat: renderedRest[6],
+        long: renderedRest[7],
+      })
     }
     // staticMapMaker(map.lat, map.long)
   }, [])
 
-  
+
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
 
-    // const staticMapMaker = (lat, long) => {
-    //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
-    //   console.log(mapImageUrl)
-    //   return(mapImageUrl)
-    // }
+  // const staticMapMaker = (lat, long) => {
+  //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
+  //   console.log(mapImageUrl)
+  //   return (mapImageUrl)
+  // }
 
-const radius = 8000
+  const radius = 8000
   const newYelpRestaurants = async () => {
     if (restaurantInfoArr[6] & restaurantInfoArr[7]) {
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${restaurantInfoArr[6]}&longitude=${restaurantInfoArr[7]}`
@@ -68,8 +68,8 @@ const radius = 8000
     }
   }
   console.log(renderedRest)
-  return (
 
+  return (
 
     <View style={styles.container}>
       {show ?
@@ -82,12 +82,13 @@ const radius = 8000
             <Text>{renderedRest[3]}</Text>
             <Text>{renderedRest[4]}</Text>
           </View>
-           {/* <View styles={styles.container}>
-           <Image 
-              style = {{width:400, height:200}}
-              source={{uri: staticMapMaker(map.lat, map.long)
-              }} /> 
-           </View> */}
+          {/* <View styles={styles.container}>
+            <Image
+              style={{ width: 400, height: 200 }}
+              source={{
+                uri: staticMapMaker(map.lat, map.long)
+              }} />
+          </View> */}
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
