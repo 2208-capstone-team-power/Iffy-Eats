@@ -25,11 +25,12 @@ const styles = StyleSheet.create(
             justifyContent: 'center',
         },
         object: {
-            width: 300,
-            height: 300,
+            width: 500,
+            height: 500,
         },
         text: {
-            fontSize: 24
+            fontSize: 24,
+            paddingBottom: 20,
         }
     }
 )

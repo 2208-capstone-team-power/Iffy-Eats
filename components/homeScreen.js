@@ -4,6 +4,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 import { Dropdown } from 'react-native-element-dropdown';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export let restaurantInfoArr = [];
 export let addressArray = {}
@@ -120,25 +121,23 @@ function HomeScreen({ navigation }) {
   };
 
   const data = [{
-    'label': '20 miles',
-    'value': '32000',
-  }, {
-    'label': '15 miles',
-    'value': '24000',
+    'label': '5 miles',
+    'value': '8000',
   }, {
     'label': '10 miles',
     'value': '16000',
   }, {
-    'label': '5 miles',
-    'value': '8000',
-  }]
+    'label': '15 miles',
+    'value': '24000',
+  }, {
+    'label': '20 miles',
+    'value': '32000',
+  },]
 
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
-        <Text style={styles.text}>Welcome to Iffy Eats!</Text>
+    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', backgroundColor: '#fffff9', }}>
+      <View style={styles.dropContainer}>
         <Dropdown
           style={styles.dropdown}
           placeholderStyle={styles.placeholderStyle}
@@ -158,10 +157,16 @@ function HomeScreen({ navigation }) {
             setRadius(item.value)
             setIsFocus(false);
           }} />
+      </View>
+      <View style={styles.wholecontainer}>
+        <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
+        <Text style={styles.titleText}>Welcome to Iffy Eats!</Text>
+      </View>
+      <View style={styles.container}>
         {!userlocation ?
-          <View>
+          <View styles={styles.container}>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={onPressHandler}>
               <Text style={styles.btnText}>Use My Location</Text>
             </Pressable>
@@ -174,16 +179,16 @@ function HomeScreen({ navigation }) {
               onChangeText={(e) => setUserAddress(e)}>
             </TextInput>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Enter Address</Text>
             </Pressable>
           </View> :
           <View>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
-              <Text style={styles.btnText}>Click to feed your hangry!</Text>
+              <Text style={styles.btnText}>Click To Feed Your HANGRY!</Text>
             </Pressable>
           </View>
         }
@@ -193,9 +198,18 @@ function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  wholecontainer: {
+    flex: 1,
+    backgroundColor: '#fffff9',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 60,
+  },
+  titleText: {
+    fontSize: 30,
+  },
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -206,12 +220,11 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 3,
-    borderColor: "chartreuse",
-    fontSize: 30,
-  },
-  text: {
-    marginBottom: 60,
-    textAlign: 'center'
+    borderColor: '#B6F7EB',
+    borderRadius: 10,
+    height: 40,
+    fontSize: 18,
+    backgroundColor: '#DAEDFB'
   },
   textSpacer: {
     marginTop: 10,
@@ -222,12 +235,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 6,
     margin: 10,
-    width: 150,
+    width: 200,
     textAlign: 'center',
     alignSelf: 'center',
   },
   btnText: {
-    textAlign: 'center'
+    textAlign: 'center',
+    color: '#ECF6FD',
+    fontSize: 18,
   },
   dropdown: {
     height: 45,
@@ -252,6 +267,11 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
   },
+  dropContainer: {
+    alignSelf: 'flex-end',
+    paddingRight: 15,
+    paddingTop: 10,
+  }
 });
 
 export default HomeScreen
