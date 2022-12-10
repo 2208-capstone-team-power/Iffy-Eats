@@ -4,17 +4,18 @@ import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-nativ
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
+import { Dropdown } from 'react-native-element-dropdown';
 
 export let restaurantInfoArr = [];
-export let addressArr = [];
 
 function HomeScreen({ navigation }) {
 
   const [userlocation, setUserLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userAddress, setUserAddress] = useState('');
-
-  const [radius, setRadius] = useState('8000');
+  const [value, setValue] = useState(8000)
+  const [radius, setRadius] = useState(8000);
+  const [isFocus, setIsFocus]= useState(false)
 
   const onPressHandler = () => {
     (async () => {
@@ -54,13 +55,9 @@ function HomeScreen({ navigation }) {
     text = JSON.stringify(userlocation);
   }
 
-
-  //const radius = '8000'
   const getYelpRestaurants = async () => {
+    console.log(radius)
     if (userAddress) {
-      addressArr = []
-      addressArr.push(userAddress)
-      console.log("HomeScreen line62 " + addressArr)
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
       const apiOptions = {
         headers: {
@@ -87,6 +84,7 @@ function HomeScreen({ navigation }) {
         )
     } else {
       console.log( 'from homescreen', userlocation.coords)
+      console.log('radius: ' + radius)
       if (userlocation) {
         const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
@@ -117,14 +115,48 @@ function HomeScreen({ navigation }) {
       }
     }
   };
- 
+
+  const data = [{
+    'label': '20 miles',
+    'value': '32000',
+  },{
+    'label': '15 miles',
+    'value': '24000',
+  },{
+    'label': '10 miles',
+    'value': '16000',
+  }, {
+    'label': '5 miles',
+    'value': '8000',
+  }]
+
 
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
       <View style={styles.container}>
         <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
         <Text style={styles.text}>Welcome to Iffy Eats!</Text>
+        <Dropdown
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          data={data}
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder={!isFocus ? 'Search Radius': '...'}
+          value={value}
+          onFocus={() => setIsFocus(true)}
+          onBlur={() => setIsFocus(false)}
+          onChange={item => {
+            setValue(item.value);
+            setRadius(item.value)
+            setIsFocus(false);
+          }}
 
+        />
         {!userlocation ? <View>
           <Pressable
             style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
@@ -154,7 +186,7 @@ function HomeScreen({ navigation }) {
             >
               <Text style={styles.btnText}>Click to feed your hangry!</Text>
             </Pressable>
-            {/* {pickedRestaurant? <Text>{pickedRestaurant}</Text> : null} */}
+         
             <StatusBar style="auto" />
           </View>
         }
@@ -199,7 +231,30 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center'
-  }
+  },
+  dropdown: {
+    height: 45,
+    width:140,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  label: {
+    position: 'absolute',
+    backgroundColor: 'white',
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 10,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
 });
 
 export default HomeScreen
