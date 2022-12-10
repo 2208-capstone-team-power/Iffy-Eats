@@ -8,31 +8,10 @@ function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
   const [renderedRest, setrenderedRest] = useState(restaurantInfoArr)
-  // const [map, setMap] = useState('')
-
-
-  // useEffect(() => {
-  //   if (renderedRest.length === 0) {
-  //     return;
-  //   } else {
-  //     setMap({
-  //       lat: renderedRest[6],
-  //       long: renderedRest[7],
-  //     })
-  //   }
-  //   staticMapMaker(map.lat, map.long)
-  // }, [])
-
 
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
-
-  // const staticMapMaker = (lat, long) => {
-  //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
-  //   console.log(mapImageUrl)
-  //   return (mapImageUrl)
-  // }
 
   const radius = 8000
   const newYelpRestaurants = async () => {
@@ -69,37 +48,33 @@ function RestaurantInfo({ navigation }) {
     <View style={styles.container}>
       {show ?
         <View style={styles.innercontainer}>
-          <Text>Food Of the Day</Text>
-          <View style={styles.innercontainer}>
+          <Text style= {styles.titleText}>Food of the Day</Text>
+          <View style={styles.yelpMapBtns}>
+          <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={() => Linking.openURL(renderedRest[5])}>
+              <Text style={styles.btnText}>View On Yelp</Text>
+            </Pressable>
+          </View>
+          <View style={styles.restContent}>
             <Text>{renderedRest[0]}</Text>
             <Text>{renderedRest[1]}</Text>
             <Text>{renderedRest[2]}</Text>
             <Text>{renderedRest[3]}</Text>
             <Text>{renderedRest[4]}</Text>
           </View>
-          {/* <View styles={styles.container}>
-            <Image
-              style={{ width: 400, height: 200 }}
-              source={{
-                uri: staticMapMaker(map.lat, map.long)
-              }} />
-          </View> */}
           <View style={styles.innercontainer}>
             <PotatoImage />
           </View>
-          <View style={styles.container}>
-            <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={() => Linking.openURL(renderedRest[5])}>
-              <Text style={styles.btnText}>Link To Yelp Page</Text>
-            </Pressable>
+          <View style={styles.newRerollBtn}>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={() => navigation.navigate('New Location')}>
-              <Text style={styles.btnText}>Enter A New Address</Text>
+              <Text style={styles.btnText}>New Address</Text>
             </Pressable>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
               onPress={newYelpRestaurants}>
+                <Text style={styles.text} >Not Today?</Text>
             </Pressable>
           </View>
         </View>
@@ -121,7 +96,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 2,
+    paddingTop: 4,
+    paddingBottom: 4,
   },
   img: {
     height: 300,
@@ -148,6 +124,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
   },
+  titleText: {
+    fontSize: 30,
+  },
+  yelpMapBtns:{
+    height: 75
+  },
+  btnText: {
+    textAlign: 'center',
+    color: '#ECF6FD',
+    fontSize: 18,
+  },
+  restContent:{
+    //flex: 1,
+    height:60,
+    justifyContent:'center',
+    alignItems: 'center',
+    paddingTop: 10,
+  },
+  newRerollBtn:{
+    flex: 1,
+    flexDirection: 'row'
+  }
 });
 
 export default RestaurantInfo
