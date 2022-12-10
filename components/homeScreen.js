@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { StatusBar } from 'expo-status-bar';
 import { Image, StyleSheet, Text, View, Pressable, TextInput } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import * as Location from 'expo-location';
@@ -15,7 +14,7 @@ function HomeScreen({ navigation }) {
   const [userAddress, setUserAddress] = useState('');
   const [value, setValue] = useState(8000)
   const [radius, setRadius] = useState(8000);
-  const [isFocus, setIsFocus]= useState(false)
+  const [isFocus, setIsFocus] = useState(false)
 
   const onPressHandler = () => {
     (async () => {
@@ -28,7 +27,6 @@ function HomeScreen({ navigation }) {
       }
 
       let loc = await Location.getCurrentPositionAsync({});
-      console.log(loc + 'from homescreen')
       setUserLocation(loc);
     })()
   }
@@ -56,7 +54,6 @@ function HomeScreen({ navigation }) {
   }
 
   const getYelpRestaurants = async () => {
-    console.log(radius)
     if (userAddress) {
       const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
       const apiOptions = {
@@ -79,12 +76,10 @@ function HomeScreen({ navigation }) {
           restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
           restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
 
-          navigation.navigate('Restaurant');
+          navigation.navigate('Your Foodie Surprise');
         }
         )
     } else {
-      console.log( 'from homescreen', userlocation.coords)
-      console.log('radius: ' + radius)
       if (userlocation) {
         const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
@@ -95,10 +90,8 @@ function HomeScreen({ navigation }) {
         return await fetch(yelpUrl, apiOptions)
           .then((res) => res.json())
           .then((json) => {
-
             const foodPlace = (json.businesses)
             let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-
             restaurantInfoArr = []
             restaurantInfoArr.push(foodPlace[oneFoodPlace].name)
             restaurantInfoArr.push(foodPlace[oneFoodPlace].location.address1)
@@ -108,8 +101,8 @@ function HomeScreen({ navigation }) {
             restaurantInfoArr.push(foodPlace[oneFoodPlace].url)
             restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
             restaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
-            navigation.navigate('Restaurant')
-            console.log("from homescreen with gps" + restaurantInfoArr)
+
+            navigation.navigate('Your Foodie Surprise')
           }
           )
       }
@@ -119,10 +112,10 @@ function HomeScreen({ navigation }) {
   const data = [{
     'label': '20 miles',
     'value': '32000',
-  },{
+  }, {
     'label': '15 miles',
     'value': '24000',
-  },{
+  }, {
     'label': '10 miles',
     'value': '16000',
   }, {
@@ -146,7 +139,7 @@ function HomeScreen({ navigation }) {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Search Radius': '...'}
+          placeholder={!isFocus ? 'Search Radius' : 'Search Radius'}
           value={value}
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -154,40 +147,34 @@ function HomeScreen({ navigation }) {
             setValue(item.value);
             setRadius(item.value)
             setIsFocus(false);
-          }}
-
-        />
-        {!userlocation ? <View>
-          <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={onPressHandler}
-          >
-            <Text style={styles.btnText}>Use My Location</Text>
-          </Pressable>
-          <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
-          <TextInput
-            style={styles.input}
-            keyboardType={'default'}
-            placeholder={'Enter Address'}
-            value={userAddress}
-            onChangeText={(e) => setUserAddress(e)}
-          ></TextInput>
-          <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={getYelpRestaurants}
-          >
-            <Text style={styles.btnText}>Enter Address</Text>
-          </Pressable>
-        </View> :
+          }} />
+        {!userlocation ?
           <View>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={getYelpRestaurants}
-            >
+              onPress={onPressHandler}>
+              <Text style={styles.btnText}>Use My Location</Text>
+            </Pressable>
+            <Text style={styles.textSpacer}>------------------- OR ------------------</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType={'default'}
+              placeholder={'Enter Address'}
+              value={userAddress}
+              onChangeText={(e) => setUserAddress(e)}>
+            </TextInput>
+            <Pressable
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={getYelpRestaurants}>
+              <Text style={styles.btnText}>Enter Address</Text>
+            </Pressable>
+          </View> :
+          <View>
+            <Pressable
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Click to feed your hangry!</Text>
             </Pressable>
-         
-            <StatusBar style="auto" />
           </View>
         }
       </View>
@@ -234,7 +221,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 45,
-    width:140,
+    width: 140,
     borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
