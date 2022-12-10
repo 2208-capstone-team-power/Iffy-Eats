@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Animated, Easing, View, StyleSheet, Text } from 'react-native';
-import LottieView from 'lottie-react-native'; //LottieView
-import { StatusBar } from 'expo-status-bar';
+import { View, StyleSheet } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 const AvocadoImage = () => {
 
@@ -10,12 +9,12 @@ const AvocadoImage = () => {
             <LottieView
                 style={styles.object}
                 source={require('../assets/63272-avocado.json')}
-                autoPlay
-            ></LottieView>
-            <StatusBar style="auto" />
+                autoPlay>
+            </LottieView>
         </View>
     )
 }
+
 const styles = StyleSheet.create(
     {
         container: {
@@ -33,4 +32,5 @@ const styles = StyleSheet.create(
         }
     }
 )
+
 export default AvocadoImage

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Animated, Easing, View, StyleSheet, Text } from 'react-native';
-import LottieView from 'lottie-react-native'; //LottieView
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import LottieView from 'lottie-react-native';
 import { StatusBar } from 'expo-status-bar';
 
 const PotatoImage = () => {
@@ -10,8 +10,8 @@ const PotatoImage = () => {
             <LottieView
                 style={styles.object}
                 source={require('../assets/122031-potato.json')}
-                autoPlay
-            ></LottieView>
+                autoPlay>
+            </LottieView>
             <StatusBar style="auto" />
         </View>
     )
@@ -33,4 +33,5 @@ const styles = StyleSheet.create(
         }
     }
 )
+
 export default PotatoImage

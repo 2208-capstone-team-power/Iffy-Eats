@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Pressable, TextInput, Linking, Image } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Linking, Image } from 'react-native';
 import { restaurantInfoArr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
@@ -9,31 +9,10 @@ function RestaurantInfo({ navigation }) {
 
   const [show, setShow] = useState(false)
   const [renderedRest, setrenderedRest] = useState(restaurantInfoArr)
-  const [map, setMap] = useState('')
-
-
-  useEffect(() => {
-    if (renderedRest.length === 0) {
-      return;
-    } else {
-      setMap({
-        lat: renderedRest[6],
-        long: renderedRest[7],
-      })
-    }
-    // staticMapMaker(map.lat, map.long)
-  }, [])
-
 
   useEffect(() => {
     setTimeout(() => setShow(true), 3000)
   })
-
-  // const staticMapMaker = (lat, long) => {
-  //   let mapImageUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${lat},${long}&zoom=13&size=400x200&maptype=roadmap&markers=color:green%7Clabel:S%7C${lat},${long}&key=${GOOGLE_API_KEY}`;
-  //   console.log(mapImageUrl)
-  //   return (mapImageUrl)
-  // }
 
   const radius = 8000
   const newYelpRestaurants = async () => {
@@ -49,9 +28,7 @@ function RestaurantInfo({ navigation }) {
         .then((json) => {
           const foodPlace = (json.businesses)
           let oneFoodPlace = Math.floor(Math.random(foodPlace) * foodPlace.length)
-          console.log(oneFoodPlace)
           newRestaurantInfoArr = []
-          console.log(foodPlace[oneFoodPlace])
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].name)
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.address1)
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].location.city)
@@ -60,14 +37,12 @@ function RestaurantInfo({ navigation }) {
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].url)
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.latitude)
           newRestaurantInfoArr.push(foodPlace[oneFoodPlace].coordinates.longitude)
-          console.log('This is the rerendered one' + newRestaurantInfoArr);
           setrenderedRest(newRestaurantInfoArr)
           return renderedRest
         }
         )
     }
   }
-  console.log(renderedRest)
 
   return (
 
@@ -105,15 +80,12 @@ function RestaurantInfo({ navigation }) {
             </Pressable>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={() => navigation.navigate('New Location')}
-            >
+              onPress={() => navigation.navigate('New Location')}>
               <Text style={styles.btnText}>Enter A New Address</Text>
             </Pressable>
             <Pressable
               style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-              onPress={newYelpRestaurants}
-            >
-              <Text style={styles.btnText}>Re-Roll!</Text>
+              onPress={newYelpRestaurants}>
             </Pressable>
           </View>
         </View>
@@ -121,7 +93,6 @@ function RestaurantInfo({ navigation }) {
     </View>
   )
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -164,6 +135,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-
 
 export default RestaurantInfo

@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { StatusBar } from 'expo-status-bar';
-import { Image, StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
-import * as Location from 'expo-location';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
 import { AvocadoImage } from "./allComponents"
 import { YELP_API_KEY } from '@env'
 
@@ -13,7 +11,6 @@ function NewLocation() {
     const radius = '8000'
 
     const newYelpLocation = async () => {
-
         if (newAddress) {
             const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${newAddress}&term=food, restaurants&radius=${radius}`
             const apiOptions = {
@@ -48,8 +45,7 @@ function NewLocation() {
             </TextInput>
             <Pressable
                 style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-                onPress={newYelpLocation}
-            >
+                onPress={newYelpLocation}>
                 <Text style={styles.btnText}>Submit</Text>
             </Pressable>
             <View>
@@ -65,10 +61,10 @@ function NewLocation() {
                     onPress={() => Linking.openURL(oneRestaurant[5])}>
                     <Text style={styles.text}>Link To Yelp Page</Text>
                 </Pressable> : null}
-
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -110,6 +106,5 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
 });
-
 
 export default NewLocation

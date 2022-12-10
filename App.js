@@ -5,14 +5,13 @@ import {HomeScreen, RestaurantInfo, Object, NewLocation, MapScreen} from './comp
 
 const Stack = createNativeStackNavigator();
 
-
 export default function App() {
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen name='Iffy Eats' component={HomeScreen} />
-      <Stack.Screen name='Restaurant' component={RestaurantInfo} />
+      <Stack.Screen name='Your Foodie Surprise' component={RestaurantInfo} />
       <Stack.Screen name='Object' component={Object} />
       <Stack.Screen name="New Location" component={NewLocation} />
       <Stack.Screen name="MapScreen" component={MapScreen} />
