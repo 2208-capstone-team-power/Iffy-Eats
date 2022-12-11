@@ -4,7 +4,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 import { Dropdown } from 'react-native-element-dropdown';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {useFonts}from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 
 export let restaurantInfoArr = [];
 export let addressArray = {}
@@ -17,6 +18,23 @@ function HomeScreen({ navigation }) {
   const [value, setValue] = useState(8000)
   const [radius, setRadius] = useState(8000);
   const [isFocus, setIsFocus] = useState(false)
+
+  const [fontsLoaded] = useFonts({
+    'BalsamiqSans-Bold': require('../assets/fonts/BalsamiqSans-Bold.ttf'),
+    'BalsamiqSans-BoldItalic': require('../assets/fonts/BalsamiqSans-BoldItalic.ttf'),
+    'BalsamiqSans-Italic': require('../assets/fonts/BalsamiqSans-Italic.ttf'),
+    'CaveatBrush-Regular': require('../assets/fonts/CaveatBrush-Regular.ttf'),
+    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf')
+  })
+
+  useEffect(()=> {
+    const prepare = async() => {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+  },[])
+  
 
   const onPressHandler = () => {
     (async () => {
@@ -49,9 +67,9 @@ function HomeScreen({ navigation }) {
   }, []);
 
   const coordinates = () => {
-    if(userlocation){
+    if (userlocation) {
       addressArray.latitude = userlocation.coords.latitude
-      addressArray.longitude= userlocation.coords.longitude
+      addressArray.longitude = userlocation.coords.longitude
       console.log("LOOK AT OBJECT" + addressArray)
     }
   }
@@ -66,7 +84,7 @@ function HomeScreen({ navigation }) {
 
   const getYelpRestaurants = async () => {
     if (userAddress) {
-      const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
+      const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}&limit=50`
       const apiOptions = {
         headers: {
           Authorization: `Bearer ${YELP_API_KEY}`,
@@ -92,7 +110,7 @@ function HomeScreen({ navigation }) {
         )
     } else {
       if (userlocation) {
-        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
+        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}&limit=50`
         const apiOptions = {
           headers: {
             Authorization: `Bearer ${YELP_API_KEY}`
@@ -134,7 +152,11 @@ function HomeScreen({ navigation }) {
     'value': '32000',
   },]
 
-
+  if(!fontsLoaded){
+    return undefined
+  } else {
+    SplashScreen.hideAsync();
+  }
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', backgroundColor: '#fffff9', }}>
       <View style={styles.dropContainer}>
@@ -206,7 +228,9 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   titleText: {
-    fontSize: 30,
+    fontSize: 48,
+    fontFamily: 'CaveatBrush-Regular',
+    color:'purple',
   },
   container: {
     flex: 1,

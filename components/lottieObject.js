@@ -6,7 +6,9 @@ const Object = () => {
 
     return (
         <View style={styles.container}>
+            <View style={styles.innerContainer}>
             <Text style={styles.text}>Your Surprise Awaits</Text>
+            </View>
             <Lottie
                 style={styles.object}
                 source={require('../assets/pick-your-food.json')}
@@ -16,13 +18,15 @@ const Object = () => {
     )
 }
 
-const styles = StyleSheet.create(
-    {
+const styles = StyleSheet.create({
         container: {
-            flex: 1,
             backgroundColor: '#fff',
             alignItems: 'center',
             justifyContent: 'center',
+            marginTop:-250,
+        },
+        innerContainer:{
+            height:100
         },
         object: {
             width: 500,
@@ -31,10 +35,6 @@ const styles = StyleSheet.create(
         text: {
             fontSize: 24,
             paddingBottom: 20,
-        }
-    }
+        }}
 )
 export default Object
-
-
-
