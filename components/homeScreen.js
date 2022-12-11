@@ -182,13 +182,14 @@ function HomeScreen({ navigation }) {
       </View>
       <View style={styles.wholecontainer}>
         <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
-        <Text style={styles.titleText}>Welcome to Iffy Eats!</Text>
+        <Text style={styles.titleText}>Welcome to</Text>
+        <Text style={styles.titleText}>Iffy Eats!</Text>
       </View>
       <View style={styles.container}>
         {!userlocation ?
           <View styles={styles.container}>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
               onPress={onPressHandler}>
               <Text style={styles.btnText}>Use My Location</Text>
             </Pressable>
@@ -201,14 +202,14 @@ function HomeScreen({ navigation }) {
               onChangeText={(e) => setUserAddress(e)}>
             </TextInput>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Enter Address</Text>
             </Pressable>
           </View> :
           <View>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Click To Feed Your HANGRY!</Text>
             </Pressable>
@@ -226,11 +227,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 60,
+    paddingBottom: 25,
   },
   titleText: {
     fontSize: 48,
     fontFamily: 'CaveatBrush-Regular',
-    color:'purple',
+    color:'#AB57DB',
   },
   container: {
     flex: 1,
@@ -269,7 +271,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   dropdown: {
-    height: 45,
+    height: 35,
     width: 140,
     borderColor: 'gray',
     borderWidth: 0.5,

@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Pressable, Linking, Image, MapScreen } from 're
 import { restaurantInfoArr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 
 function RestaurantInfo({ navigation }) {
 
@@ -44,6 +46,28 @@ function RestaurantInfo({ navigation }) {
         )
     }
   }
+
+  const [fontsLoaded] = useFonts({
+    'BalsamiqSans-Bold': require('../assets/fonts/BalsamiqSans-Bold.ttf'),
+    'BalsamiqSans-BoldItalic': require('../assets/fonts/BalsamiqSans-BoldItalic.ttf'),
+    'BalsamiqSans-Italic': require('../assets/fonts/BalsamiqSans-Italic.ttf'),
+    'CaveatBrush-Regular': require('../assets/fonts/CaveatBrush-Regular.ttf'),
+    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf')
+})
+
+useEffect(() => {
+    const prepare = async () => {
+        await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+}, [])
+
+if (!fontsLoaded) {
+    return undefined
+} else {
+    SplashScreen.hideAsync();
+}
 
   return (
 
@@ -100,18 +124,15 @@ const styles = StyleSheet.create({
     paddingTop: 350,
   },
   innercontainer: {
-    //flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    //paddingTop: 4,
     paddingBottom: 4,
     height: 50,
   },
   img: {
-    height: 300,
+    height: 275,
     width: 300,
-    margin: 10
   },
   input: {
     borderWidth: 3,
@@ -121,6 +142,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     textAlign:'center',
+    fontFamily: 'Pacifico-Regular',
+    color:'#6CB8EF'
   },
   button: {
     margin: 10,
@@ -137,15 +160,16 @@ const styles = StyleSheet.create({
   titleContainer:{
     height:20,
     paddingBottom:40,
+    paddingTop: 25,
   },
   titleText: {
-    fontSize: 30,
+    fontSize: 42,
     height: 50,
-    textColor: 'black',
     textAlign:'center',
+    fontFamily:'CaveatBrush-Regular',
+    color:'#7824A8',
   },
   yelpMapBtns: {
-    // flex: 1,
     flexDirection: 'row',
     height: 100,
   },
@@ -155,21 +179,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   restContent: {
-    //flex: 1,
-    height: 150,
+    height: 220,
+    width: 300,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 5,
+    borderWidth:5,
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius:30,
+    borderStyle: 'dashed',
   },
   newRerollBtn: {
-    //flex: 1,
     flexDirection: 'row',
     height:75,
-
+    //paddingBottom:30
   },
   name: {
-    fontSize:28,
+    fontSize:38,
     textAlign:'center',
+    fontFamily:'TitanOne-Regular',
+    color:'#2395E7'
   }
 });
 
