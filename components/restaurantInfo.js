@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Pressable, Linking, Image, MapScreen } from 're
 import { restaurantInfoArr } from './homeScreen'
 import { Object, PotatoImage } from './allComponents'
 import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
+import { useFonts } from 'expo-font'
+import * as SplashScreen from 'expo-splash-screen'
 
 function RestaurantInfo({ navigation }) {
 
@@ -14,9 +16,11 @@ function RestaurantInfo({ navigation }) {
   })
 
   const radius = 8000
+  let newRestaurantInfoArr = []
+
   const newYelpRestaurants = async () => {
     if (restaurantInfoArr[6] & restaurantInfoArr[7]) {
-      const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${restaurantInfoArr[6]}&longitude=${restaurantInfoArr[7]}`
+      const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${restaurantInfoArr[6]}&longitude=${restaurantInfoArr[7]}&limit=50`
       const apiOptions = {
         headers: {
           Authorization: `Bearer ${YELP_API_KEY}`,
@@ -43,42 +47,66 @@ function RestaurantInfo({ navigation }) {
     }
   }
 
+  const [fontsLoaded] = useFonts({
+    'BalsamiqSans-Bold': require('../assets/fonts/BalsamiqSans-Bold.ttf'),
+    'BalsamiqSans-BoldItalic': require('../assets/fonts/BalsamiqSans-BoldItalic.ttf'),
+    'BalsamiqSans-Italic': require('../assets/fonts/BalsamiqSans-Italic.ttf'),
+    'CaveatBrush-Regular': require('../assets/fonts/CaveatBrush-Regular.ttf'),
+    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
+    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf')
+})
+
+useEffect(() => {
+    const prepare = async () => {
+        await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+}, [])
+
+if (!fontsLoaded) {
+    return undefined
+} else {
+    SplashScreen.hideAsync();
+}
+
   return (
 
     <View style={styles.container}>
       {show ?
         <View style={styles.innercontainer}>
-          <Text style= {styles.titleText}>Food of the Day</Text>
+          <View style={styles.titleContainer}>
+            <Text style={styles.titleText}>Food of the Day</Text>
+          </View>
           <View style={styles.yelpMapBtns}>
             <Pressable
-            style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
-            onPress={()=>navigation.navigate('MapScreen')}>
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : '#CDF6B6' }), styles.wrapperCustom]}
+              onPress={() => navigation.navigate('MapScreen')}>
+              <Text style={styles.btnText}>View On Map</Text>
             </Pressable>
-          <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+            <Pressable style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : '#CDF6B6' }), styles.wrapperCustom]}
               onPress={() => Linking.openURL(renderedRest[5])}>
               <Text style={styles.btnText}>View On Yelp</Text>
             </Pressable>
           </View>
           <View style={styles.restContent}>
-            <Text>{renderedRest[0]}</Text>
-            <Text>{renderedRest[1]}</Text>
-            <Text>{renderedRest[2]}</Text>
-            <Text>{renderedRest[3]}</Text>
-            <Text>{renderedRest[4]}</Text>
+            <Text style={styles.name}>{renderedRest[0]}</Text>
+            <Text style={styles.text}>{renderedRest[1]}</Text>
+            <Text style={styles.text}>{renderedRest[2]}, {renderedRest[3]}</Text>
+            <Text style={styles.text}>{renderedRest[4]}</Text>
           </View>
-          <View style={styles.innercontainer}>
+          <View style={styles.img}>
             <PotatoImage />
           </View>
-          <View>
+          <View style={styles.newRerollBtn}>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : '#B6F7EB' }), styles.wrapperCustom]}
               onPress={() => navigation.navigate('New Location')}>
               <Text style={styles.btnText}>New Address</Text>
             </Pressable>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : 'hotpink' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? 'purple' : '#B6F7EB' }), styles.wrapperCustom]}
               onPress={newYelpRestaurants}>
-                <Text style={styles.text} >Not Today?</Text>
+              <Text style={styles.btnText} >Try Again?</Text>
             </Pressable>
           </View>
         </View>
@@ -92,21 +120,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 10,
+    justifyContent: 'space-between',
+    paddingTop: 350,
   },
   innercontainer: {
-    flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 4,
     paddingBottom: 4,
+    height: 50,
   },
   img: {
-    height: 300,
+    height: 275,
     width: 300,
-    margin: 10
   },
   input: {
     borderWidth: 3,
@@ -114,7 +140,10 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   text: {
-    margin: 10
+    fontSize: 20,
+    textAlign:'center',
+    fontFamily: 'Pacifico-Regular',
+    color:'#6CB8EF'
   },
   button: {
     margin: 10,
@@ -128,27 +157,48 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
   },
-  titleText: {
-    fontSize: 30,
+  titleContainer:{
+    height:20,
+    paddingBottom:40,
+    paddingTop: 25,
   },
-  yelpMapBtns:{
-    height: 75
+  titleText: {
+    fontSize: 42,
+    height: 50,
+    textAlign:'center',
+    fontFamily:'CaveatBrush-Regular',
+    color:'#7824A8',
+  },
+  yelpMapBtns: {
+    flexDirection: 'row',
+    height: 100,
   },
   btnText: {
     textAlign: 'center',
-    color: '#ECF6FD',
+    color: '#9072C4',
     fontSize: 18,
   },
-  restContent:{
-    //flex: 1,
-    height:60,
-    justifyContent:'center',
+  restContent: {
+    height: 220,
+    width: 300,
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 10,
+    paddingTop: 5,
+    borderWidth:5,
+    borderTopLeftRadius: 30,
+    borderBottomRightRadius:30,
+    borderStyle: 'dashed',
   },
-  newRerollBtn:{
-    flex: 1,
-    flexDirection: 'row'
+  newRerollBtn: {
+    flexDirection: 'row',
+    height:75,
+    //paddingBottom:30
+  },
+  name: {
+    fontSize:38,
+    textAlign:'center',
+    fontFamily:'TitanOne-Regular',
+    color:'#2395E7'
   }
 });
 
