@@ -4,6 +4,7 @@ import { AvocadoImage } from "./allComponents"
 import { YELP_API_KEY } from '@env'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 
 function NewLocation() {
@@ -63,6 +64,7 @@ function NewLocation() {
         SplashScreen.hideAsync();
     }
     return (
+        <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', backgroundColor: '#fffff9', }}>
         <View style={styles.container}>
             <Text style={styles.title}>Where Next?</Text>
             <TextInput
@@ -90,6 +92,7 @@ function NewLocation() {
                     <Text style={styles.btnText}>View On Yelp</Text>
                 </Pressable> : null}
         </View>
+        </KeyboardAwareScrollView>
     )
 }
 
