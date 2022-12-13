@@ -4,8 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import * as Location from 'expo-location';
 import { YELP_API_KEY } from '@env'
 import { Dropdown } from 'react-native-element-dropdown';
-import {useFonts}from 'expo-font'
-import * as SplashScreen from 'expo-splash-screen'
 
 export let restaurantInfoArr = [];
 export let addressArray = {}
@@ -18,23 +16,6 @@ function HomeScreen({ navigation }) {
   const [value, setValue] = useState(8000)
   const [radius, setRadius] = useState(8000);
   const [isFocus, setIsFocus] = useState(false)
-
-  const [fontsLoaded] = useFonts({
-    'BalsamiqSans-Bold': require('../assets/fonts/BalsamiqSans-Bold.ttf'),
-    'BalsamiqSans-BoldItalic': require('../assets/fonts/BalsamiqSans-BoldItalic.ttf'),
-    'BalsamiqSans-Italic': require('../assets/fonts/BalsamiqSans-Italic.ttf'),
-    'CaveatBrush-Regular': require('../assets/fonts/CaveatBrush-Regular.ttf'),
-    'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
-    'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf')
-  })
-
-  useEffect(()=> {
-    const prepare = async() => {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  },[])
-  
 
   const onPressHandler = () => {
     (async () => {
@@ -67,9 +48,9 @@ function HomeScreen({ navigation }) {
   }, []);
 
   const coordinates = () => {
-    if (userlocation) {
+    if(userlocation){
       addressArray.latitude = userlocation.coords.latitude
-      addressArray.longitude = userlocation.coords.longitude
+      addressArray.longitude= userlocation.coords.longitude
       console.log("LOOK AT OBJECT" + addressArray)
     }
   }
@@ -84,7 +65,7 @@ function HomeScreen({ navigation }) {
 
   const getYelpRestaurants = async () => {
     if (userAddress) {
-      const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}&limit=50`
+      const yelpUrl = `https://api.yelp.com/v3/businesses/search?location=${userAddress}&term=food, restaurants&radius=${radius}`
       const apiOptions = {
         headers: {
           Authorization: `Bearer ${YELP_API_KEY}`,
@@ -110,7 +91,7 @@ function HomeScreen({ navigation }) {
         )
     } else {
       if (userlocation) {
-        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}&limit=50`
+        const yelpUrl = `https://api.yelp.com/v3/businesses/search?term=food, restaurants&radius=${radius}&latitude=${userlocation.coords.latitude}&longitude=${userlocation.coords.longitude}`
         const apiOptions = {
           headers: {
             Authorization: `Bearer ${YELP_API_KEY}`
@@ -152,11 +133,7 @@ function HomeScreen({ navigation }) {
     'value': '32000',
   },]
 
-  if(!fontsLoaded){
-    return undefined
-  } else {
-    SplashScreen.hideAsync();
-  }
+
   return (
     <KeyboardAwareScrollView contentContainerStyle={{ flex: 1, justifyContent: 'center', backgroundColor: '#fffff9', }}>
       <View style={styles.dropContainer}>
@@ -182,14 +159,13 @@ function HomeScreen({ navigation }) {
       </View>
       <View style={styles.wholecontainer}>
         <Image style={styles.img} source={require('../assets/Feed-Your-Hangry.png')} />
-        <Text style={styles.titleText}>Welcome to</Text>
-        <Text style={styles.titleText}>Iffy Eats!</Text>
+        <Text style={styles.titleText}>Welcome to Iffy Eats!</Text>
       </View>
       <View style={styles.container}>
         {!userlocation ?
           <View styles={styles.container}>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={onPressHandler}>
               <Text style={styles.btnText}>Use My Location</Text>
             </Pressable>
@@ -202,14 +178,14 @@ function HomeScreen({ navigation }) {
               onChangeText={(e) => setUserAddress(e)}>
             </TextInput>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Enter Address</Text>
             </Pressable>
           </View> :
           <View>
             <Pressable
-              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#E396D2' }), styles.wrapperCustom]}
+              style={({ pressed }) => [({ backgroundColor: pressed ? '#D9EDFC' : '#9072C4' }), styles.wrapperCustom]}
               onPress={getYelpRestaurants}>
               <Text style={styles.btnText}>Click To Feed Your HANGRY!</Text>
             </Pressable>
@@ -227,12 +203,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 60,
-    paddingBottom: 25,
   },
   titleText: {
-    fontSize: 48,
-    fontFamily: 'CaveatBrush-Regular',
-    color:'#AB57DB',
+    fontSize: 30,
   },
   container: {
     flex: 1,
@@ -271,7 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   dropdown: {
-    height: 35,
+    height: 45,
     width: 140,
     borderColor: 'gray',
     borderWidth: 0.5,
