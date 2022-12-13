@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
-// import MapViewDirections from 'react-native-maps-directions';
 import { Marker } from 'react-native-maps';
-import { StyleSheet, Pressable, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { restaurantInfoArr, addressArray } from './homeScreen';
 import * as Location from 'expo-location';
-// import { GOOGLE_API_KEY } from '.env';
-
-
 
 const MapScreen = () => {
     const [userLocation, setUserLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null)
 
     console.log("LOOK HERE" + addressArray)
 
@@ -34,7 +31,7 @@ const MapScreen = () => {
         })();
     }, []);
        
-    let text = 'Waiting..';
+    // let text = 'Waiting..';
        
     // if (errorMsg) {
     //     text = errorMsg;
@@ -59,8 +56,6 @@ const MapScreen = () => {
                     coordinate={addressArray}
                     title={'You'} 
                 />
-
-
             </MapView>
         </View>
     );

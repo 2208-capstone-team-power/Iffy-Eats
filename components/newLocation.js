@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, TextInput, Linking } from 'react-native';
-import { AvocadoImage } from "./allComponents"
+import AvocadoImage from "./avocadoImage.js"
 import { YELP_API_KEY } from '@env'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'

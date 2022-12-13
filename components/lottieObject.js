@@ -4,7 +4,6 @@ import Lottie from 'lottie-react-native';
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 
-
 const Object = () => {
 
     const [fontsLoaded] = useFonts({

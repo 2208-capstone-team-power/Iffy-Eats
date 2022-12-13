@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Pressable, Linking, Image, MapScreen } from 'react-native';
-import { restaurantInfoArr } from './homeScreen'
-import { Object, PotatoImage } from './allComponents'
-import { YELP_API_KEY, GOOGLE_API_KEY } from '@env'
+import { StyleSheet, Text, View, Pressable, Linking} from 'react-native';
+import { restaurantInfoArr } from './homeScreen.js'
+import Object from './lottieObject.js'
+import PotatoImage from './potatoImage.js'
+import { YELP_API_KEY } from '@env'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
 
@@ -54,20 +55,20 @@ function RestaurantInfo({ navigation }) {
     'CaveatBrush-Regular': require('../assets/fonts/CaveatBrush-Regular.ttf'),
     'Pacifico-Regular': require('../assets/fonts/Pacifico-Regular.ttf'),
     'TitanOne-Regular': require('../assets/fonts/TitanOne-Regular.ttf')
-})
+  })
 
-useEffect(() => {
+  useEffect(() => {
     const prepare = async () => {
-        await SplashScreen.preventAutoHideAsync();
+      await SplashScreen.preventAutoHideAsync();
     }
     prepare();
-}, [])
+  }, [])
 
-if (!fontsLoaded) {
+  if (!fontsLoaded) {
     return undefined
-} else {
+  } else {
     SplashScreen.hideAsync();
-}
+  }
 
   return (
 
@@ -141,9 +142,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
-    textAlign:'center',
+    textAlign: 'center',
     fontFamily: 'Pacifico-Regular',
-    color:'#6CB8EF'
+    color: '#6CB8EF'
   },
   button: {
     margin: 10,
@@ -157,17 +158,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
   },
-  titleContainer:{
-    height:20,
-    paddingBottom:40,
+  titleContainer: {
+    height: 20,
+    paddingBottom: 40,
     paddingTop: 25,
   },
   titleText: {
     fontSize: 42,
     height: 50,
-    textAlign:'center',
-    fontFamily:'CaveatBrush-Regular',
-    color:'#7824A8',
+    textAlign: 'center',
+    fontFamily: 'CaveatBrush-Regular',
+    color: '#7824A8',
   },
   yelpMapBtns: {
     flexDirection: 'row',
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: 'center',
-    color: '#9072C4',
+    color: '#601D87',
     fontSize: 18,
   },
   restContent: {
@@ -184,21 +185,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 5,
-    borderWidth:5,
+    borderWidth: 5,
     borderTopLeftRadius: 30,
-    borderBottomRightRadius:30,
+    borderBottomRightRadius: 30,
     borderStyle: 'dashed',
   },
   newRerollBtn: {
     flexDirection: 'row',
-    height:75,
+    height: 75,
     //paddingBottom:30
   },
   name: {
-    fontSize:38,
-    textAlign:'center',
-    fontFamily:'TitanOne-Regular',
-    color:'#2395E7'
+    fontSize: 38,
+    textAlign: 'center',
+    fontFamily: 'TitanOne-Regular',
+    color: '#2395E7'
   }
 });
 
