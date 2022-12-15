@@ -8,3 +8,5 @@ An app for those who are indecisive on what to eat. Feed your hangry!
 
 //Generate New Restaurant with New Address
 ![](https://github.com/2208-capstone-team-power/Iffy-Eats/blob/main/assets/nextEatery.gif)
+
+![](https://github.com/2208-capstone-team-power/Iffy-Eats/blob/main/assets/nextEatery2.gif)
